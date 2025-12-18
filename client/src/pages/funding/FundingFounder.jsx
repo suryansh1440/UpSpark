@@ -1,17 +1,12 @@
-import { useSelector, useDispatch } from 'react-redux'
-import { useCallback } from 'react'
-import { updateFounderRequestStatus } from '../../store/fundingSlice'
 import NotAllowed from '../../components/NotAllowed'
+import { useAuthStore } from '../../store/useAuthStore'
+import useFundingStore from '../../store/useFundingStore'
 
 const FundingFounder = () => {
-  const user = useSelector((state) => state.auth.currentUser)
-  const requests = useSelector((state) => state.funding.founderRequests)
-  const dispatch = useDispatch()
-  const setStatus = useCallback(
-    (investor, status) => dispatch(updateFounderRequestStatus({ investor, status })),
-    [dispatch]
-  )
-  if (user && user.role !== 'founder') {
+  const { user } = useAuthStore()
+  const requests = useFundingStore((s) => s.founderRequests)
+  const setStatus = useFundingStore((s) => s.updateFounderRequestStatus)
+  if (!user || user.activeRole !== 'founder') {
     return <NotAllowed message="Funding (founder) is only for founders." />
   }
 

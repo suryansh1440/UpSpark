@@ -1,17 +1,18 @@
-import { useSelector, useDispatch } from 'react-redux'
+// ...redux removed for startup state
 import { startups } from '../../data/mockData'
 import NotAllowed from '../../components/NotAllowed'
-import { toggleSave } from '../../store/startupSlice'
 import { useNavigate } from 'react-router-dom'
+import { useAuthStore } from '../../store/useAuthStore'
+import useStartupStore from '../../store/useStartupStore'
 
 const filters = ['Industry', 'Stage', 'Location', 'Min Revenue', 'Traction']
 
 const InvestorDashboard = () => {
-  const user = useSelector((state) => state.auth.currentUser)
-  const saved = useSelector((state) => state.startup.savedIds)
-  const dispatch = useDispatch()
+  const { user } = useAuthStore()
+  const saved = useStartupStore((s) => s.savedIds)
+  const toggleSave = useStartupStore((s) => s.toggleSave)
   const navigate = useNavigate()
-  if (user && user.role !== 'investor') {
+  if (!user || user.activeRole !== 'investor') {
     return <NotAllowed message="This dashboard is for investors. Switch role to continue." />
   }
 
@@ -57,7 +58,7 @@ const InvestorDashboard = () => {
                   View Details
                 </button>
                 <button
-                  onClick={() => dispatch(toggleSave(startup.id))}
+                  onClick={() => toggleSave(startup.id)}
                   className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white hover:border-indigo-400/40">
                   {saved.includes(startup.id) ? 'Saved' : 'Save'}
                 </button>

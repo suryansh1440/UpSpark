@@ -1,12 +1,12 @@
-import { useSelector } from 'react-redux'
-import { messagesPreview, fundingRequests } from '../../data/mockData'
+import { useAuthStore } from '../../store/useAuthStore'
+import { fundingRequests } from '../../data/mockData'
 import NotAllowed from '../../components/NotAllowed'
 import { useNavigate } from 'react-router-dom'
 
 const FounderDashboard = () => {
-  const user = useSelector((state) => state.auth.currentUser)
+  const { user } = useAuthStore()
   const navigate = useNavigate()
-  if (user && user.role !== 'founder') {
+  if (!user || user.activeRole !== 'founder') {
     return <NotAllowed message="This dashboard is for founders. Switch role to continue." />
   }
 
@@ -77,26 +77,7 @@ const FounderDashboard = () => {
             ))}
           </div>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Messages Preview</h3>
-            <button className="text-sm text-indigo-200 hover:text-white">Open chat</button>
-          </div>
-          <div className="mt-3 space-y-3">
-            {messagesPreview.map((msg) => (
-              <div key={msg.name} className="flex items-center justify-between rounded-xl bg-slate-900/70 px-4 py-3">
-                <div>
-                  <div className="text-sm font-semibold">{msg.name}</div>
-                  <div className="text-xs text-slate-400">{msg.role}</div>
-                </div>
-                <div className="text-right text-xs text-slate-400">
-                  <div>{msg.lastMessage}</div>
-                  <div>{msg.time}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* Messages preview removed */}
       </div>
 
       <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
