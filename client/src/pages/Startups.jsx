@@ -1,12 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { toggleSave, selectStartup } from '../store/startupSlice'
+import useStartupStore from '../store/useStartupStore'
 import { startups } from '../data/mockData'
 
 const Startups = () => {
-  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const saved = useSelector((state) => state.startup.savedIds)
+  const saved = useStartupStore((s) => s.savedIds)
+  const toggleSave = useStartupStore((s) => s.toggleSave)
+  const selectStartup = useStartupStore((s) => s.selectStartup)
 
   return (
     <div className="bg-slate-950 px-4 py-10 text-white">
@@ -56,15 +56,15 @@ const Startups = () => {
               <div className="mt-4 flex gap-3">
                 <button
                   onClick={() => {
-                    dispatch(selectStartup(startup.id))
-                    navigate(`/startups/${startup.id}`)
-                  }}
+                      selectStartup(startup.id)
+                      navigate(`/startups/${startup.id}`)
+                    }}
                   className="flex-1 rounded-xl bg-indigo-500/90 px-4 py-2 text-center text-sm font-semibold text-white transition hover:brightness-110"
                 >
                   View Profile
                 </button>
                 <button
-                  onClick={() => dispatch(toggleSave(startup.id))}
+                  onClick={() => toggleSave(startup.id)}
                   className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white hover:border-indigo-400/40">
                   {saved.includes(startup.id) ? 'Saved' : 'Save'}
                 </button>

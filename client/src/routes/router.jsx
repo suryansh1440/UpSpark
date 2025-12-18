@@ -8,12 +8,13 @@ import Register from '../pages/auth/Register'
 import Onboarding from '../pages/Onboarding'
 import FounderDashboard from '../pages/dashboards/FounderDashboard'
 import InvestorDashboard from '../pages/dashboards/InvestorDashboard'
+import MentorDashboard from '../pages/dashboards/MentorDashboard'
+import CollaboratorDashboard from '../pages/dashboards/CollaboratorDashboard'
 import Startups from '../pages/Startups'
 import StartupDetail from '../pages/StartupDetail'
 import CollaborationBoard from '../pages/CollaborationBoard'
 import Mentors from '../pages/Mentors'
 import MentorProfile from '../pages/MentorProfile'
-import Messages from '../pages/Messages'
 import FundingFounder from '../pages/funding/FundingFounder'
 import FundingInvestor from '../pages/funding/FundingInvestor'
 import AiPitch from '../pages/AiPitch'
@@ -41,14 +42,6 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/investor/dashboard',
-    element: <Navigate to="/dashboard/investor" replace />,
-  },
-  {
-    path: '/funding/investor',
-    element: <Navigate to="/dashboard/funding/investor" replace />,
-  },
-  {
     path: '/dashboard',
     element: (
       <ProtectedLayout>
@@ -56,8 +49,11 @@ const router = createBrowserRouter([
       </ProtectedLayout>
     ),
     children: [
-      { index: true, element: <FounderDashboard /> },
-      { path: 'investor', element: <InvestorDashboard /> },
+      { index: true, element: <ProtectedLayout roles={['founder']}><FounderDashboard /></ProtectedLayout> },
+      { path: 'founder', element: <ProtectedLayout roles={['founder']}><FounderDashboard /></ProtectedLayout> },
+      { path: 'investor', element: <ProtectedLayout roles={['investor']}><InvestorDashboard /></ProtectedLayout> },
+      { path: 'mentor', element: <ProtectedLayout roles={['mentor']}><MentorDashboard /></ProtectedLayout> },
+      { path: 'collaborator', element: <ProtectedLayout roles={['collaborator']}><CollaboratorDashboard /></ProtectedLayout> },
       { path: 'admin', element: <ProtectedLayout roles={['admin']}><AdminDashboard /></ProtectedLayout> },
       { path: 'admin/users', element: <ProtectedLayout roles={['admin']}><AdminUsers /></ProtectedLayout> },
       { path: 'startups', element: <Startups /> },
@@ -65,12 +61,13 @@ const router = createBrowserRouter([
       { path: 'collaboration', element: <CollaborationBoard /> },
       { path: 'mentors', element: <Mentors /> },
       { path: 'mentors/:id', element: <MentorProfile /> },
-      { path: 'funding', element: <FundingFounder /> },
-      { path: 'funding/investor', element: <FundingInvestor /> },
-      { path: 'messages', element: <Messages /> },
+      { path: 'funding', element: <ProtectedLayout roles={['founder']}><FundingFounder /></ProtectedLayout> },
+      { path: 'funding/investor', element: <ProtectedLayout roles={['investor']}><FundingInvestor /></ProtectedLayout> },
+      /* messages route removed */
       { path: 'ai-pitch', element: <AiPitch /> },
       { path: 'notifications', element: <Notifications /> },
       { path: 'settings', element: <Settings /> },
+      { path: '*', element: <div className="text-white">Not found</div> },
     ],
   },
   {

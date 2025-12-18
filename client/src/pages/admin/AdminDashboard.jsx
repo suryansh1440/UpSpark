@@ -1,10 +1,11 @@
-import { useSelector } from 'react-redux'
+import { useAuthStore } from '../../store/useAuthStore'
 import { adminHighlights } from '../../data/mockData'
 import NotAllowed from '../../components/NotAllowed'
 
 const AdminDashboard = () => {
-  const user = useSelector((state) => state.auth.currentUser)
-  if (user && user.role !== 'admin') {
+  const { user } = useAuthStore()
+  // require an authenticated user with activeRole 'admin'
+  if (!user || user.activeRole !== 'admin') {
     return <NotAllowed message="Admin access only." />
   }
 

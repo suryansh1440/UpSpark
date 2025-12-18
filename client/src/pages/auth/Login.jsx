@@ -1,22 +1,33 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { loginWithRole } from '../../store/authSlice'
-import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useAuthStore } from '../../store/useAuthStore'
 
 const Login = () => {
-  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const location = useLocation()
-  const [selectedRole, setSelectedRole] = useState('founder')
-  const { isAuthenticated } = useSelector((state) => state.auth)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const { user, login, isLoggingIn } = useAuthStore()
 
-  const handleLogin = () => {
-    dispatch(loginWithRole(selectedRole))
-    const redirectTo = location.state?.from || '/dashboard'
-    navigate(redirectTo)
+
+  useEffect(() => {
+    if (user) {
+      const roleDashMap = {
+        founder: '/dashboard',
+        investor: '/dashboard/investor',
+        mentor: '/dashboard/mentor',
+        collaborator: '/dashboard/collaborator',
+        admin: '/dashboard/admin',
+      }
+      const redirectTo = roleDashMap[user?.activeRole] || '/dashboard'
+      navigate(redirectTo)
+    }
+  }, [user, navigate]);
+
+  const handleLogin = async () => {
+    await login({ email, password })
   }
 
-  if (isAuthenticated) {
+  if (user) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center bg-slate-950 text-white">
         <div className="space-y-4 text-center">
@@ -45,32 +56,26 @@ const Login = () => {
             <div className="space-y-4">
             <div>
               <label className="text-sm text-slate-300">Email</label>
-              <input className="mt-1 w-full rounded-xl bg-white/5 px-3 py-2 text-sm outline-none ring-1 ring-white/10 focus:ring-indigo-400/50" />
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 w-full rounded-xl bg-white/5 px-3 py-2 text-sm outline-none ring-1 ring-white/10 focus:ring-indigo-400/50"
+              />
             </div>
             <div>
               <label className="text-sm text-slate-300">Password</label>
               <input
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="mt-1 w-full rounded-xl bg-white/5 px-3 py-2 text-sm outline-none ring-1 ring-white/10 focus:ring-indigo-400/50"
               />
             </div>
-              <div className="flex gap-2 text-xs text-slate-300">
-                {['founder', 'investor', 'admin'].map((role) => (
-                  <button
-                    key={role}
-                    onClick={() => setSelectedRole(role)}
-                    className={`flex-1 rounded-xl border px-3 py-2 capitalize transition ${
-                      selectedRole === role ? 'border-indigo-400/50 bg-indigo-500/10 text-white' : 'border-white/10 bg-white/5'
-                    }`}
-                  >
-                    {role}
-                  </button>
-                ))}
-              </div>
             <button
               onClick={handleLogin}
-              className="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20">
-              Login (demo)
+              disabled={isLoggingIn}
+              className="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 disabled:opacity-60">
+              {isLoggingIn ? 'Logging in…' : 'Login'}
             </button>
             <button className="w-full rounded-xl border border-white/10 px-4 py-2 text-sm font-semibold text-white hover:border-white/30">
               Login with Google

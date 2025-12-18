@@ -1,12 +1,16 @@
 import { Link } from 'react-router-dom'
 import { startups } from '../data/mockData'
+import { useAuthStore } from '../store/useAuthStore'
 
-const TrendingStartups = () => (
+
+const TrendingStartups = () => {
+  const {user} = useAuthStore();
+  return (
   <section className="bg-slate-950 py-12">
     <div className="mx-auto max-w-6xl px-4">
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-white">Trending startups</h2>
-        <Link to="/startups" className="text-sm font-semibold text-indigo-200 hover:text-white">
+        <Link to={user?("/dashboard/startups"):("/login")} className="text-sm font-semibold text-indigo-200 hover:text-white">
           View all →
         </Link>
       </div>
@@ -42,7 +46,7 @@ const TrendingStartups = () => (
       </div>
     </div>
   </section>
-)
+)}
 
 export default TrendingStartups
 

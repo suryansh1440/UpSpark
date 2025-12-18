@@ -1,20 +1,20 @@
 import { useParams } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { selectStartup, toggleSave } from '../store/startupSlice'
+import useStartupStore from '../store/useStartupStore'
 import { startups } from '../data/mockData'
 
 const tabs = ['Overview', 'Team', 'Traction', 'Funding', 'Documents']
 
 const StartupDetail = () => {
   const { id } = useParams()
-  const dispatch = useDispatch()
-  const saved = useSelector((state) => state.startup.savedIds)
+  const saved = useStartupStore((s) => s.savedIds)
+  const selectStartup = useStartupStore((s) => s.selectStartup)
+  const toggleSave = useStartupStore((s) => s.toggleSave)
   const startup = startups.find((s) => s.id === id) || startups[0]
 
   useEffect(() => {
-    if (id) dispatch(selectStartup(id))
-  }, [dispatch, id])
+    if (id) selectStartup(id)
+  }, [id, selectStartup])
 
   return (
     <div className="bg-slate-950 px-4 py-10 text-white">
@@ -43,7 +43,7 @@ const StartupDetail = () => {
               Request Meeting
             </button>
             <button
-              onClick={() => dispatch(toggleSave(startup.id))}
+              onClick={() => toggleSave(startup.id)}
               className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white hover:border-indigo-400/40"
             >
               {saved.includes(startup.id) ? 'Saved' : 'Save Startup'}

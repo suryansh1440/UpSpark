@@ -1,5 +1,5 @@
-import { useSelector } from 'react-redux'
 import NotAllowed from '../../components/NotAllowed'
+import { useAuthStore } from '../../store/useAuthStore'
 
 const rows = [
   { name: 'Aisha Khan', role: 'Founder', status: 'Active' },
@@ -8,8 +8,9 @@ const rows = [
 ]
 
 const AdminUsers = () => {
-  const user = useSelector((state) => state.auth.currentUser)
-  if (user && user.role !== 'admin') {
+  const { user } = useAuthStore()
+  // require an authenticated user with activeRole 'admin'
+  if (!user || user.activeRole !== 'admin') {
     return <NotAllowed message="Admin access only." />
   }
 

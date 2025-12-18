@@ -1,13 +1,13 @@
-import { useSelector, useDispatch } from 'react-redux'
 import NotAllowed from '../../components/NotAllowed'
-import { updateInvestorRequestStatus } from '../../store/fundingSlice'
+import { useAuthStore } from '../../store/useAuthStore'
+import useFundingStore from '../../store/useFundingStore'
 
 const FundingInvestor = () => {
-  const user = useSelector((state) => state.auth.currentUser)
-  const requests = useSelector((state) => state.funding.investorRequests)
-  const dispatch = useDispatch()
+  const { user } = useAuthStore()
+  const requests = useFundingStore((s) => s.investorRequests)
+  const setStatus = useFundingStore((s) => s.updateInvestorRequestStatus)
 
-  if (user && user.role !== 'investor') {
+  if (!user || user.activeRole !== 'investor') {
     return <NotAllowed message="Funding (investor) is only for investors." />
   }
 
@@ -27,8 +27,8 @@ const FundingInvestor = () => {
             <div className="text-slate-300">{row.date}</div>
             <div className="text-indigo-200">{row.status}</div>
             <div className="flex justify-end gap-2 text-xs">
-              <button onClick={() => dispatch(updateInvestorRequestStatus({ startup: row.startup, status: 'Viewed' }))} className="rounded-lg bg-indigo-500/80 px-3 py-1 text-white">View Pitch</button>
-              <button onClick={() => dispatch(updateInvestorRequestStatus({ startup: row.startup, status: 'Chat opened' }))} className="rounded-lg border border-white/10 px-3 py-1 text-white">Open Chat</button>
+              <button onClick={() => setStatus({ startup: row.startup, status: 'Viewed' })} className="rounded-lg bg-indigo-500/80 px-3 py-1 text-white">View Pitch</button>
+              <button onClick={() => setStatus({ startup: row.startup, status: 'Chat opened' })} className="rounded-lg border border-white/10 px-3 py-1 text-white">Open Chat</button>
             </div>
           </div>
         ))}

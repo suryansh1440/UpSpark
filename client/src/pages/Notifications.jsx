@@ -1,6 +1,5 @@
 const notifications = [
   { title: 'New funding request from Alpha Ventures', subtitle: 'Click to review.', time: '2h', type: 'Funding' },
-  { title: 'New message from Mentor Priya', subtitle: 'She replied to your chat.', time: '5h', type: 'Messages' },
   { title: 'System update', subtitle: 'Workspace synced', time: '1d', type: 'System' },
 ]
 
@@ -9,7 +8,7 @@ const Notifications = () => {
     <div className="bg-slate-950 px-4 py-10 text-white">
       <div className="mx-auto max-w-4xl space-y-6">
         <div className="flex items-center gap-3">
-          {['All', 'Funding', 'Messages', 'System'].map((filter, idx) => (
+          {['All', 'Funding', 'System'].map((filter, idx) => (
             <button
               key={filter}
               className={`rounded-full px-4 py-2 text-sm ${idx === 0 ? 'bg-indigo-500/20 text-indigo-100' : 'bg-white/5 text-slate-200'}`}

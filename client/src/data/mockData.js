@@ -102,12 +102,6 @@ export const testimonials = [
   },
 ]
 
-export const messagesPreview = [
-  { name: 'Investor ABC', role: 'Investor', lastMessage: 'Let’s schedule a call this Friday?', time: '2h ago' },
-  { name: 'Mentor Priya', role: 'Mentor', lastMessage: 'Here is the deck feedback I promised.', time: '5h ago' },
-  { name: 'Dev Akash', role: 'Collaborator', lastMessage: 'I can help with the mobile app.', time: '1d ago' },
-]
-
 export const fundingRequests = [
   {
     investor: 'Alpha Ventures',
