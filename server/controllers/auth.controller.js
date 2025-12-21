@@ -16,7 +16,7 @@ export const signup = async(req,res)=>{
             return res.status(400).json({message:"User already exists with this email"});
         }
 
-        const roleOptions = ["founder","investor","mentor","collaborator"];
+        const roleOptions = ["founder","investor","collaborator"];
         if(!roleOptions.includes(role)){
             return res.status(400).json({message:"Invalid role selected"});
         }
@@ -109,7 +109,7 @@ export const checkAuth = async (req, res) => {
 export const changeRole = async(req,res)=>{
     const {role} = req.body;
     const user = req.user;
-    const validRoles = ["founder", "investor", "mentor", "collaborator", "admin"];
+    const validRoles = ["founder", "investor", "collaborator", "admin"];
     try{
         if (!role || !validRoles.includes(role)) {
             return res.status(400).json({ message: "Invalid role" });
@@ -137,7 +137,7 @@ export const changeRole = async(req,res)=>{
 export const addRole = async(req,res)=>{
     const {role} = req.body;
     const user = req.user;
-    const validRoles = ["founder", "investor", "mentor", "collaborator"];
+    const validRoles = ["founder", "investor", "collaborator"];
     try{
         if (!role || !validRoles.includes(role)) {
             return res.status(400).json({ message: "Invalid role" });

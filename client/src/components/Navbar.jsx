@@ -4,7 +4,6 @@ import { useAuthStore } from '../store/useAuthStore'
 const roleDashMap = {
   founder: '/dashboard/founder',
   investor: '/dashboard/investor',
-  mentor: '/dashboard/mentor',
   collaborator: '/dashboard/collaborator',
   admin: '/dashboard/admin',
 }
