@@ -7,6 +7,8 @@ import adminRoutes from './routes/admin.routes.js';
 import investorRoutes from './routes/investor.routes.js';
 import fundingRoutes from './routes/funding.routes.js';
 import userRoutes from './routes/user.routes.js';
+import collaborationRoutes from './routes/collaboration.routes.js';
+import notificationRoutes from './routes/notification.routes.js';
 import { connectDB } from './lib/db.js';
 import cookieParser from 'cookie-parser';
 
@@ -34,6 +36,8 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/investor', investorRoutes);
 app.use('/api/funding', fundingRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/collaboration', collaborationRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 
 app.get('/', (req, res) => {

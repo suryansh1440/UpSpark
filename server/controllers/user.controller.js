@@ -2,6 +2,7 @@ import User from '../modals/user.modal.js'
 import bcrypt from 'bcryptjs'
 import cloudinary from '../lib/cloudinary.js'
 import streamifier from 'streamifier'
+import Notification from '../modals/notification.modal.js'
 
 export const getMe = async (req, res) => {
   try {
@@ -74,7 +75,6 @@ export const changePassword = async (req, res) => {
   }
 }
 
-
 export const deactivateAccount = async (req, res) => {
   try {
     const user = await User.findById(req.user._id)
@@ -82,6 +82,16 @@ export const deactivateAccount = async (req, res) => {
     // soft-deactivate
     user.isBlocked = true
     await user.save()
+    try {
+      await Notification.create({
+        user: user._id,
+        title: 'Account Restricted',
+        message: 'Your account has been restricted by admin.',
+        type: 'admin',
+      })
+    } catch (e) {
+      console.error('failed to create notification on account deactivate:', e)
+    }
     return res.json({ message: 'Account deactivated' })
   } catch (err) {
     console.error('deactivateAccount error:', err)
