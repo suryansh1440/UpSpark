@@ -21,11 +21,11 @@ const DashboardLayout = () => {
   )
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-white">
+    <div className="flex h-screen overflow-hidden bg-slate-950 text-white">
       <Sidebar />
       <div className="flex flex-1 flex-col">
         <Topbar />
-        <main className="flex-1 bg-gradient-to-b from-slate-950 to-slate-900 px-4 py-6">
+        <main className="flex-1 overflow-auto bg-gradient-to-b from-slate-950 to-slate-900 px-4 py-6">
           <div className="mx-auto max-w-6xl">
             <Outlet />
           </div>

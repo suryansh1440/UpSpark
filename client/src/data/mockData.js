@@ -1,7 +1,7 @@
 export const heroStats = [
   { label: 'Startups', value: '500+' },
   { label: 'Investors', value: '200+' },
-  { label: 'Mentors', value: '100+' },
+  { label: 'Advisors', value: '100+' },
 ]
 
 export const howItWorks = [
@@ -12,7 +12,7 @@ export const howItWorks = [
   },
   {
     title: 'Discover & connect',
-    description: 'Search startups, investors, mentors and collaborators.',
+    description: 'Search startups, investors, advisors and collaborators.',
     icon: 'search',
   },
   {
@@ -25,7 +25,6 @@ export const howItWorks = [
 export const roles = [
   { title: "I'm a Startup Founder", cta: 'Sign up', role: 'founder', color: 'from-indigo-500 to-violet-500' },
   { title: "I'm an Investor", cta: 'Sign up', role: 'investor', color: 'from-emerald-500 to-teal-500' },
-  { title: "I'm a Mentor", cta: 'Sign up', role: 'mentor', color: 'from-amber-500 to-orange-500' },
   { title: "I'm a Collaborator", cta: 'Sign up', role: 'collaborator', color: 'from-sky-500 to-cyan-500' },
 ]
 
@@ -97,8 +96,8 @@ export const testimonials = [
   },
   {
     name: 'Lisa Mathew',
-    role: 'Mentor, Ex-Google',
-    quote: 'Booking mentor sessions is frictionless and well structured.',
+    role: 'Advisor, Ex-Google',
+    quote: 'Booking advisor sessions is frictionless and well structured.',
   },
 ]
 

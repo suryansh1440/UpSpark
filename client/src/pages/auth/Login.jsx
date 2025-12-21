@@ -1,9 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useAuthStore } from '../../store/useAuthStore'
 
 const Login = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { user, login, isLoggingIn } = useAuthStore()
@@ -11,17 +12,22 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
+      // if we have an intended path in location.state.from, redirect there first
+      const from = location.state?.from
+      if (from) {
+        navigate(from, { replace: true })
+        return
+      }
       const roleDashMap = {
         founder: '/dashboard',
         investor: '/dashboard/investor',
-        mentor: '/dashboard/mentor',
         collaborator: '/dashboard/collaborator',
         admin: '/dashboard/admin',
       }
       const redirectTo = roleDashMap[user?.activeRole] || '/dashboard'
       navigate(redirectTo)
     }
-  }, [user, navigate]);
+  }, [user, navigate, location]);
 
   const handleLogin = async () => {
     await login({ email, password })

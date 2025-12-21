@@ -30,14 +30,14 @@ const userSchema = new mongoose.Schema(
     // user can have multiple roles
     roles: {
       type: [String],
-      enum: ["founder", "investor", "mentor", "collaborator", "admin"],
+      enum: ["founder", "investor", "collaborator", "admin"],
       default: ["founder"],
     },
 
     // currently active role (for dashboard switch)
     activeRole: {
       type: String,
-      enum: ["founder", "investor", "mentor", "collaborator", "admin"],
+      enum: ["founder", "investor", "collaborator", "admin"],
       default: "founder",
     },
 

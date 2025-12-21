@@ -39,7 +39,7 @@ const FounderDashboard = () => {
           <h3 className="text-lg font-semibold">Quick Actions</h3>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {[
-              ['Update Startup Profile', '/dashboard/startups'],
+              ['Update Startup Profile', '/dashboard/my-startup'],
               ['Upload Pitch Deck', '/dashboard/funding'],
               ['Analyze Pitch with AI', '/dashboard/ai-pitch'],
               ['Post Collaboration Opportunity', '/dashboard/collaboration'],
@@ -84,7 +84,7 @@ const FounderDashboard = () => {
         <h3 className="text-lg font-semibold">Upcoming events</h3>
         <div className="mt-3 grid gap-3 md:grid-cols-3">
           {[
-            ['Mentor session with Priya', 'Friday, 4 PM'],
+            ['Advisor session with Priya', 'Friday, 4 PM'],
             ['Demo Day prep', 'Monday, 11 AM'],
             ['Investor follow-up', 'Tuesday, 6 PM'],
           ].map(([title, time]) => (

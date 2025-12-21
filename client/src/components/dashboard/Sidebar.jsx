@@ -17,16 +17,17 @@ import { useAuthStore } from '../../store/useAuthStore'
 const navItems = [
   { to: '/dashboard/founder', label: 'Founder Dashboard', icon: LayoutDashboard, roles: ['founder'] },
   { to: '/dashboard/investor', label: 'Investor Dashboard', icon: Gauge, roles: ['investor'] },
-  { to: '/dashboard/mentor', label: 'Mentor Dashboard', icon: GraduationCap, roles: ['mentor'] },
+  // Mentor role removed
   { to: '/dashboard/collaborator', label: 'Collaborator Dashboard', icon: Sparkles, roles: ['collaborator'] },
   { to: '/dashboard/admin', label: 'Admin Dashboard', icon: Gauge, roles: ['admin'] },
-  { to: '/dashboard/startups', label: 'Explore Startups', icon: Rocket, roles: ['founder', 'investor', 'mentor', 'collaborator', 'admin'] },
+  { to: '/dashboard/startup', label: 'Explore Startups', icon: Rocket, roles: ['founder', 'investor', 'collaborator', 'admin'] },
+  { to: '/dashboard/my-startup', label: 'My Startups', icon: Users, roles: ['founder'] },
   { to: '/dashboard/funding', label: 'Funding', icon: HandCoins, roles: ['founder'] },
   { to: '/dashboard/funding/investor', label: 'Funding (Investor)', icon: HandCoins, roles: ['investor'] },
   { to: '/dashboard/collaboration', label: 'Collaboration Board', icon: Users, roles: ['founder', 'investor', 'collaborator', 'admin'] },
   { to: '/dashboard/ai-pitch', label: 'AI Pitch Analyzer', icon: Bot, roles: ['founder', 'investor', 'admin'] },
-  { to: '/dashboard/settings', label: 'Settings', icon: Settings, roles: ['founder', 'investor', 'mentor', 'collaborator', 'admin'] },
-  { to: '/dashboard/notifications', label: 'Notifications', icon: Bell, roles: ['founder', 'investor', 'mentor', 'collaborator', 'admin'] },
+  { to: '/dashboard/settings', label: 'Settings', icon: Settings, roles: ['founder', 'investor', 'collaborator', 'admin'] },
+  { to: '/dashboard/notifications', label: 'Notifications', icon: Bell, roles: ['founder', 'investor', 'collaborator', 'admin'] },
 ]
 
 const Sidebar = () => {

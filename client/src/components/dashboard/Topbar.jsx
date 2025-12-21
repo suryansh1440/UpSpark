@@ -6,12 +6,11 @@ import { useAuthStore } from '../../store/useAuthStore'
 const roleDashMap = {
   founder: '/dashboard/founder',
   investor: '/dashboard/investor',
-  mentor: '/dashboard/mentor',
   collaborator: '/dashboard/collaborator',
   admin: '/dashboard/admin',
 }
 
-const roles = ['founder', 'investor', 'mentor', 'collaborator']
+const roles = ['founder', 'investor', 'collaborator']
 
 const Topbar = () => {
   const navigate = useNavigate()

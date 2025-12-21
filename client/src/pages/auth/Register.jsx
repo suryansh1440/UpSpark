@@ -23,7 +23,6 @@ const Register = () => {
       const roleDashMap = {
         founder: '/dashboard',
         investor: '/dashboard/investor',
-        mentor: '/dashboard/mentor',
         collaborator: '/dashboard/collaborator',
         admin: '/dashboard/admin',
       }

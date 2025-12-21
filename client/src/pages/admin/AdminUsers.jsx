@@ -4,7 +4,7 @@ import { useAuthStore } from '../../store/useAuthStore'
 const rows = [
   { name: 'Aisha Khan', role: 'Founder', status: 'Active' },
   { name: 'Rahul Verma', role: 'Investor', status: 'Verified' },
-  { name: 'Lisa Mathew', role: 'Mentor', status: 'Active' },
+  { name: 'Lisa Mathew', role: 'Advisor', status: 'Active' },
 ]
 
 const AdminUsers = () => {
@@ -17,7 +17,7 @@ const AdminUsers = () => {
   return (
     <div className="space-y-4 text-white">
       <div className="flex flex-wrap items-center gap-3">
-        {['All', 'Founders', 'Investors', 'Mentors', 'Blocked'].map((filter, idx) => (
+        {['All', 'Founders', 'Investors', 'Advisors', 'Blocked'].map((filter, idx) => (
           <button
             key={filter}
             className={`rounded-full px-4 py-2 text-sm ${idx === 0 ? 'bg-indigo-500/20 text-indigo-100' : 'bg-white/5 text-slate-200'}`}

@@ -21,6 +21,13 @@ const FundingInvestor = () => {
           <div>Status</div>
           <div className="text-right">Actions</div>
         </div>
+        {!requests.length && (
+          <div className="p-8 text-center text-slate-300">
+            <div className="text-3xl">📭</div>
+            <div className="mt-2 text-lg font-medium">No funding requests found</div>
+            <div className="mt-1 text-sm">When startups request funding you'll see them listed here.</div>
+          </div>
+        )}
         {requests.map((row) => (
           <div key={row.startup} className="grid grid-cols-4 items-center px-4 py-3 text-sm text-white">
             <div>{row.startup}</div>

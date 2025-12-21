@@ -4,7 +4,6 @@ import { useAuthStore } from '../store/useAuthStore'
 const roleDashMap = {
   founder: '/dashboard',
   investor: '/dashboard/investor',
-  mentor: '/dashboard/mentor',
   collaborator: '/dashboard/collaborator',
   admin: '/dashboard/admin',
 }
@@ -22,7 +21,7 @@ const HeroSection = () => {
           </p>
           <div className="space-y-3">
             <h1 className="text-4xl font-bold leading-tight text-white md:text-6xl">
-              Connect startups, investors & mentors — faster.
+              Connect startups, investors & advisors — faster.
             </h1>
             <p className="text-lg text-slate-300 max-w-2xl">
               Showcase your startup, meet the right investors, and accelerate growth with AI-driven pitch scoring and curated introductions.
@@ -43,7 +42,7 @@ const HeroSection = () => {
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </Link>)}
             <Link
-              to="/dashboard/startups"
+              to="/startups"
               className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:border-white/30 hover:bg-white/5"
             >
               Explore Startups
