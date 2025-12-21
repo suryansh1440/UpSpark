@@ -13,6 +13,8 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { useAuthStore } from '../../store/useAuthStore'
+import { useEffect } from 'react'
+import useNotificationStore from '../../store/useNotificationStore'
 
 const navItems = [
   { to: '/dashboard/founder', label: 'Founder Dashboard', icon: LayoutDashboard, roles: ['founder'] },
@@ -32,6 +34,9 @@ const navItems = [
 
 const Sidebar = () => {
   const {user, logout} = useAuthStore();
+  const unreadCount = useNotificationStore((s) => s.unreadCount)
+  const fetchUnreadCount = useNotificationStore((s) => s.fetchUnreadCount)
+  useEffect(() => { fetchUnreadCount() }, [fetchUnreadCount])
   const navigate = useNavigate()
   return (
     <aside className="hidden h-full w-64 flex-col border-r border-white/5 bg-slate-950/80 p-4 backdrop-blur md:flex">
@@ -56,7 +61,12 @@ const Sidebar = () => {
               }
             >
               <Icon size={18} className="text-indigo-200" />
-              <span>{item.label}</span>
+              <span className="flex items-center gap-2">
+                <span>{item.label}</span>
+                {item.to === '/dashboard/notifications' && unreadCount > 0 && (
+                  <span className="ml-2 inline-flex items-center justify-center rounded-full bg-rose-500 px-2 py-0.5 text-xs font-semibold text-white">{unreadCount}</span>
+                )}
+              </span>
             </NavLink>
           )
         })}

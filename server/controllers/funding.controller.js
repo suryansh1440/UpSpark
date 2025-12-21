@@ -1,4 +1,5 @@
 import FundingRequest from '../modals/funding.modal.js'
+import Notification from '../modals/notification.modal.js'
 
 export const getRequestsForFounder = async (req, res) => {
   try {
@@ -21,6 +22,18 @@ export const acceptRequest = async (req, res) => {
     if (fr.status !== 'pending') return res.status(400).json({ message: 'Only pending requests can be accepted' })
     fr.status = 'accepted'
     await fr.save()
+    // notify investor
+    try {
+      await Notification.create({
+        user: fr.investor._id || fr.investor,
+        title: 'Funding Request Accepted 🎉',
+        message: 'Founder accepted your funding proposal.',
+        type: 'funding',
+        link: '/dashboard/funding/investor',
+      })
+    } catch (e) {
+      console.error('failed to create notification for funding acceptance:', e)
+    }
     return res.json(fr)
   } catch (err) {
     console.error('acceptRequest error:', err)
@@ -37,6 +50,18 @@ export const rejectRequest = async (req, res) => {
     if (fr.status !== 'pending') return res.status(400).json({ message: 'Only pending requests can be rejected' })
     fr.status = 'rejected'
     await fr.save()
+    // notify investor
+    try {
+      await Notification.create({
+        user: fr.investor._id || fr.investor,
+        title: 'Funding Request Rejected',
+        message: 'Founder declined your funding proposal.',
+        type: 'funding',
+        link: '/dashboard/funding/investor',
+      })
+    } catch (e) {
+      console.error('failed to create notification for funding rejection:', e)
+    }
     return res.json(fr)
   } catch (err) {
     console.error('rejectRequest error:', err)

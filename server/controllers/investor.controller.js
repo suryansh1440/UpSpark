@@ -1,4 +1,5 @@
 import FundingRequest from '../modals/funding.modal.js'
+import Notification from '../modals/notification.modal.js'
 import Startup from '../modals/startup.modal.js'
 
 export const sendFundingRequest = async (req, res) => {
@@ -21,6 +22,19 @@ export const sendFundingRequest = async (req, res) => {
     }
 
     const fr = await FundingRequest.create({ investor: req.user._id, startup: startup._id, amount, message })
+
+    // notify founder about new funding request
+    try {
+      await Notification.create({
+        user: startup.founder,
+        title: 'New Funding Request',
+        message: 'An investor has shown interest in your startup.',
+        type: 'funding',
+        link: '/dashboard/funding',
+      })
+    } catch (e) {
+      console.error('failed to create notification for funding request:', e)
+    }
     return res.status(201).json(fr)
   } catch (err) {
     console.error('sendFundingRequest error:', err)

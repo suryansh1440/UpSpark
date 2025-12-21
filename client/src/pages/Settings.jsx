@@ -2,15 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { useAuthStore } from '../store/useAuthStore'
 import useUserStore from '../store/useUserStore'
 
-const AVAILABLE_ROLES = ['founder', 'investor', 'collaborator', 'admin']
-
 const Settings = () => {
-  const { user, checkAuth, addRole, changeRole, isAddingRole, isChangingRole } = useAuthStore()
+  const { user, checkAuth } = useAuthStore()
   const { isUpdating, isUploadingAvatar, updateProfile, updateAvatar } = useUserStore()
 
   const [form, setForm] = useState({ name: '', bio: '', website: '', linkedinUrl: '', location: '' })
-  const [roleToAdd, setRoleToAdd] = useState('')
-  const [roleToSwitch, setRoleToSwitch] = useState('')
   const [selectedFile, setSelectedFile] = useState(null)
   const [preview, setPreview] = useState(null)
   const fileRef = useRef(null)
@@ -49,18 +45,6 @@ const Settings = () => {
     }
   }
 
-  const handleAddRole = async () => {
-    if (!roleToAdd) return
-    await addRole(roleToAdd)
-    setRoleToAdd('')
-  }
-
-  const handleChangeRole = async () => {
-    if (!roleToSwitch) return
-    await changeRole(roleToSwitch)
-    setRoleToSwitch('')
-  }
-
   const handleSelectFile = (e) => {
     const f = e.target.files?.[0]
     if (!f) return
@@ -76,8 +60,6 @@ const Settings = () => {
       // handled by store
     }
   }
-
-  const rolesNotAdded = AVAILABLE_ROLES.filter((r) => !(user?.roles || []).includes(r))
 
   return (
     <div className="space-y-6 text-white">
@@ -103,29 +85,6 @@ const Settings = () => {
             <div className="text-xs text-slate-400 mt-2">PNG, JPG up to 2MB</div>
             {selectedFile && <div className="text-sm text-slate-300 mt-2">Selected: {selectedFile.name}</div>}
             <input ref={fileRef} onChange={handleSelectFile} accept="image/*" type="file" className="hidden" />
-          </div>
-
-          <div className="space-y-3">
-            <h4 className="text-sm font-semibold">Roles</h4>
-            <div className="flex items-center gap-2">
-              <select value={roleToAdd} onChange={(e)=>setRoleToAdd(e.target.value)} className="flex-1 rounded-md bg-white/5 px-3 py-2">
-                <option value="">Add role...</option>
-                {rolesNotAdded.map(r=> <option key={r} value={r}>{r}</option>)}
-              </select>
-              <button disabled={!roleToAdd || isAddingRole} onClick={handleAddRole} className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white">
-                {isAddingRole ? 'Adding...' : 'Add'}
-              </button>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <select value={roleToSwitch} onChange={(e)=>setRoleToSwitch(e.target.value)} className="flex-1 rounded-md bg-white/5 px-3 py-2">
-                <option value="">Switch active role...</option>
-                {(user?.roles || []).map(r=> <option key={r} value={r}>{r}</option>)}
-              </select>
-              <button disabled={!roleToSwitch || isChangingRole} onClick={handleChangeRole} className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white">
-                {isChangingRole ? 'Switching...' : 'Switch'}
-              </button>
-            </div>
           </div>
         </aside>
 

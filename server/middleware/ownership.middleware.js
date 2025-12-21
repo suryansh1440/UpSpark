@@ -1,4 +1,5 @@
 import Startup from "../modals/startup.modal.js";
+import CollaborationPost from "../modals/collaborationPost.modal.js";
 
 export const ensureOwnership = async (req, res, next) => {
   try {
@@ -14,6 +15,23 @@ export const ensureOwnership = async (req, res, next) => {
     next();
   } catch (error) {
     console.error("Ownership middleware error:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const ensurePostOwnership = async (req, res, next) => {
+  try {
+    const postId = req.params.postId || req.params.id;
+    if (!postId) return res.status(400).json({ message: "postId required" });
+    const post = await CollaborationPost.findById(postId);
+    if (!post) return res.status(404).json({ message: "Post not found" });
+    req.collaborationPost = post;
+    if (post.postedBy.toString() !== req.user._id.toString() && !req.user.roles.includes("admin")) {
+      return res.status(403).json({ message: "Forbidden: Not the owner" });
+    }
+    next();
+  } catch (error) {
+    console.error("ensurePostOwnership error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
