@@ -11,12 +11,12 @@ import collaborationRoutes from './routes/collaboration.routes.js';
 import notificationRoutes from './routes/notification.routes.js';
 import { connectDB } from './lib/db.js';
 import cookieParser from 'cookie-parser';
+import {app,server} from './lib/socket.js';
 
 config();
 
 const PORT = process.env.PORT || 3000;
 
-const app = express();
 
 app.use(cors({
     origin: process.env.CLIENT_URL || 'http://localhost:5173',
@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
 
 connectDB()
   .then(() => {
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
     });
   })

@@ -125,7 +125,7 @@ const CollaborationBoard = () => {
                   {user?.roles?.includes('collaborator') && String(item.postedBy?._id) !== String(user?._id) && (
                     <button onClick={() => openDetail(item)} className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white hover:border-indigo-400/40">Apply / Show Interest</button>
                   )}
-                  {String(item.postedBy?._id) === String(user?._id) && (
+                  {String(item.postedBy) === String(user?._id) && (
                     <>
                       <button onClick={() => { selectPost(item); setShowCreate(true); setForm({ title: item.title, description: item.description, roleNeeded: item.roleNeeded, skillsRequired: (item.skillsRequired || []).join(', '), commitment: item.commitment, location: item.location, startup: item.startup?._id || '' }) }} className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white">Edit</button>
                       <button onClick={() => handleDelete(item._id)} className="rounded-xl border border-red-600/40 bg-white/5 px-4 py-2 text-sm font-semibold text-red-400">Delete</button>
@@ -213,7 +213,7 @@ const CollaborationBoard = () => {
                     </div>
 
                     <div className="space-y-4">
-                      {user?.roles?.includes('collaborator') && String(selectedPost.postedBy?._id) !== String(user?._id) && (
+                      {user?.roles?.includes('collaborator') && String(selectedPost.postedBy) !== String(user?._id) && (
                         <div className="rounded-lg bg-slate-900/60 p-3">
                           <div className="text-sm text-slate-300">Send a short message when applying</div>
                           <textarea value={applyMsg} onChange={(e) => setApplyMsg(e.target.value)} placeholder="Brief intro & why you're interested" className="mt-2 w-full rounded-md bg-slate-800 px-3 py-2 text-sm" rows={4} />

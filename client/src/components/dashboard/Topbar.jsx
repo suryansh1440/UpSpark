@@ -31,6 +31,7 @@ const Topbar = () => {
     window.addEventListener('click', onClick)
     return () => window.removeEventListener('click', onClick)
   }, [])
+  
 
   const handleSelectRole = async (r) => {
       await changeRole(r)
@@ -121,9 +122,17 @@ const Topbar = () => {
           <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-indigo-400" />
         </button>
         <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 text-white">
-            <User size={16} />
-          </div>
+<div className="flex h-8 w-8 items-center justify-center rounded-full text-white overflow-hidden">
+  {user?.avatar ? (
+    <img
+      src={user.avatar}
+      alt="avatar"
+      className="h-full w-full object-cover"
+    />
+  ) : (
+    <User className="h-5 w-5" />
+  )}
+</div>
           <div>
             <div className="text-sm font-semibold text-white">{user?.name ?? 'Guest'}</div>
             <div className="text-xs text-slate-400 capitalize">{user?.activeRole ?? 'role'}</div>

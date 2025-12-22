@@ -1,8 +1,9 @@
 import {create} from 'zustand'
 import { axiosInstance } from '../lib/axios';
 import {toast} from 'react-hot-toast';
+import { io } from 'socket.io-client';
 
-export const useAuthStore = create((set) => ({
+export const useAuthStore = create((set,get) => ({
   user:null,
   isLoggingIn: false,
   isSigningUp: false,
@@ -10,12 +11,15 @@ export const useAuthStore = create((set) => ({
   isCheckingAuth: false,
   isAddingRole: false,
   isChangingRole: false,
+  socket : null,
 
   checkAuth: async () => {
     set({ isCheckingAuth: true });
     try {
       const res = await axiosInstance.get('/auth/check-auth');
       set({ user: res.data });
+
+      get().connectSocket();
     }catch (error) {
       console.log("Check auth error:", error);
       set({ user: null });
@@ -30,6 +34,8 @@ export const useAuthStore = create((set) => ({
       const res = await axiosInstance.post('/auth/login', data);
       set({ user: res.data.user });
       toast.success("Logged in Successfully");
+
+      get().connectSocket();
     } catch (error) {
       console.log("Login error:", error);
       toast.error(error.response?.data?.message || "Login failed");
@@ -44,6 +50,8 @@ export const useAuthStore = create((set) => ({
       const res = await axiosInstance.post('/auth/signup', data);
       set({ user: res.data.user });
       toast.success(res.data?.message || 'Registered successfully');
+
+      get().connectSocket();
     } catch (error) {
       console.log('Signup error:', error);
       toast.error(error.response?.data?.message || 'Signup failed');
@@ -58,6 +66,8 @@ export const useAuthStore = create((set) => ({
       await axiosInstance.post('/auth/logout');
       set({ user: null });
       toast.success("Logged out successfully");
+
+      get().disconnectSocket();
     }catch(error){
       console.log("Logout error:", error);
       // If logout API fails, clear local user state so UI reflects logout action
@@ -97,6 +107,23 @@ export const useAuthStore = create((set) => ({
       toast.error(error.response?.data?.message || "Failed to change role");
     } finally{
       set({isChangingRole:false});
+    }
+  },
+  connectSocket: ()=>{
+            const {user} = get();
+        if(!user || get().socket?.connected) return;
+        const socket = io('http://localhost:3000',{
+            query:{
+                userId: user._id,
+            }
+        })
+        socket.connect()
+        set({socket})
+  },
+  disconnectSocket: async()=>{
+    if(get().socket?.connected){
+      get().socket.disconnect()
+      set({socket:null})
     }
   },
    
